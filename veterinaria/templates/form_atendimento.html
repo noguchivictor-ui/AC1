@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo }}{% endblock %}
+
+{% block conteudo %}
+  <h2>{{ titulo }}</h2>
+  <p class="vazio">Animal: {{ animal['nome'] }}</p>
+
+  {% if erros %}
+    <p class="erro-geral">Corrija os campos indicados abaixo.</p>
+  {% endif %}
+
+  <form method="post" action="{{ acao }}">
+
+    <p>
+      <label for="descricao">Descrição do atendimento</label>
+      <input type="text" id="descricao" name="descricao" value="{{ dados.get('descricao', '') }}" placeholder="Ex: consulta de rotina, vacina V10...">
+      {% if erros.get('descricao') %}<span class="erro">{{ erros['descricao'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <label for="data">Data (dd/mm/aaaa)</label>
+      <input type="text" id="data" name="data" value="{{ dados.get('data', '') }}" placeholder="09/09/2026">
+      {% if erros.get('data') %}<span class="erro">{{ erros['data'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <label for="veterinario">Veterinário responsável</label>
+      <input type="text" id="veterinario" name="veterinario" value="{{ dados.get('veterinario', '') }}">
+      {% if erros.get('veterinario') %}<span class="erro">{{ erros['veterinario'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <label for="valor">Valor (R$)</label>
+      <input type="text" id="valor" name="valor" value="{{ dados.get('valor', '') }}" placeholder="120.00">
+      {% if erros.get('valor') %}<span class="erro">{{ erros['valor'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <button type="submit">Salvar</button>
+      <a href="{{ url_for('detalhe', id_animal=animal['id']) }}">Cancelar</a>
+    </p>
+
+  </form>
+{% endblock %}

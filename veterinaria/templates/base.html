@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>{% block titulo %}Clínica Veterinária{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+
+  <header>
+    <h1>Clínica Veterinária</h1>
+    <nav>
+      <a href="{{ url_for('listar') }}">Animais</a>
+      <a href="{{ url_for('buscar') }}">Buscar</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer>
+    Victor Ryu Noguchi- Engenharia da computacao
+  </footer>
+
+</body>
+</html>

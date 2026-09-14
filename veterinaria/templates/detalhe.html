@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ animal['nome'] }}{% endblock %}
+
+{% block conteudo %}
+  <h2>{{ animal['nome'] }}</h2>
+
+  {% if msg %}
+    <p class="sucesso">{{ msg }}</p>
+  {% endif %}
+
+  <ul class="detalhe">
+    <li><b>ID:</b> {{ animal['id'] }}</li>
+    <li><b>Espécie:</b> {{ animal['especie'] }}</li>
+    <li><b>Raça:</b> {{ animal['raca'] or '—' }}</li>
+    <li><b>Data de nascimento:</b> {{ animal['data_nascimento'] }}</li>
+    <li><b>Tutor:</b> {{ animal['tutor_nome'] }}</li>
+  </ul>
+
+  <p>
+    <a class="botao" href="{{ url_for('editar', id_animal=animal['id']) }}">Editar animal</a>
+    <a href="{{ url_for('listar') }}">Voltar para a lista</a>
+  </p>
+
+  <form method="post" action="{{ url_for('excluir', id_animal=animal['id']) }}"
+        onsubmit="return confirm('Excluir {{ animal.nome }}? Isso apaga também os atendimentos dele.');">
+    <button type="submit" class="perigo">Excluir este animal</button>
+  </form>
+
+  <hr>
+
+  <h3>Atendimentos</h3>
+  <p><a class="botao" href="{{ url_for('novo_atendimento', id_animal=animal['id']) }}">+ Novo atendimento</a></p>
+
+  {% if atendimentos %}
+    <table>
+      <tr>
+        <th>Data</th>
+        <th>Descrição</th>
+        <th>Veterinário</th>
+        <th>Valor</th>
+      </tr>
+      {% for at in atendimentos %}
+      <tr>
+        <td>{{ at['data'] }}</td>
+        <td>{{ at['descricao'] }}</td>
+        <td>{{ at['veterinario'] }}</td>
+        <td>R$ {{ "%.2f"|format(at['valor']) }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p class="vazio">Este animal ainda não tem nenhum atendimento registrado.</p>
+  {% endif %}
+{% endblock %}

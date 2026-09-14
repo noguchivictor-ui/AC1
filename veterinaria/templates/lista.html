@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block titulo %}Animais cadastrados{% endblock %}
+
+{% block conteudo %}
+  <h2>Animais cadastrados</h2>
+
+  {% if msg %}
+    <p class="sucesso">{{ msg }}</p>
+  {% endif %}
+
+  <p><a class="botao" href="{{ url_for('novo') }}">+ Cadastrar animal</a></p>
+
+  <form method="get" action="{{ url_for('buscar') }}">
+    <input type="text" name="termo" value="{{ termo }}" placeholder="Buscar por nome do animal ou do tutor...">
+    <button type="submit">Buscar</button>
+  </form>
+
+  {% if animais %}
+    <p>{{ animais|length }} registro(s){% if termo %} para "{{ termo }}"{% endif %}.</p>
+    <table>
+      <tr>
+        <th>Nome</th>
+        <th>Espécie</th>
+        <th>Tutor</th>
+        <th>Ações</th>
+      </tr>
+      {% for a in animais %}
+      <tr>
+        <td><a href="{{ url_for('detalhe', id_animal=a['id']) }}">{{ a['nome'] }}</a></td>
+        <td>{{ a['especie'] }}</td>
+        <td>{{ a['tutor_nome'] }}</td>
+        <td>
+          <a href="{{ url_for('editar', id_animal=a['id']) }}">editar</a>
+          <form method="post" action="{{ url_for('excluir', id_animal=a['id']) }}"
+                onsubmit="return confirm('Excluir {{ a.nome }}? Isso apaga também os atendimentos dele.');">
+            <button type="submit" class="link-perigo">excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% elif termo %}
+    <p class="vazio">Nenhum animal encontrado com "{{ termo }}".</p>
+  {% else %}
+    <p class="vazio">Nenhum animal cadastrado ainda.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo }}{% endblock %}
+
+{% block conteudo %}
+  <h2>{{ titulo }}</h2>
+
+  {% if erros %}
+    <p class="erro-geral">Corrija os campos indicados abaixo.</p>
+  {% endif %}
+
+  <form method="post" action="{{ acao }}">
+
+    <p>
+      <label for="nome">Nome do animal</label>
+      <input type="text" id="nome" name="nome" value="{{ dados.get('nome', '') }}">
+      {% if erros.get('nome') %}<span class="erro">{{ erros['nome'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <label for="especie">Espécie</label>
+      <input type="text" id="especie" name="especie" value="{{ dados.get('especie', '') }}" placeholder="Ex: cachorro, gato, ave...">
+      {% if erros.get('especie') %}<span class="erro">{{ erros['especie'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <label for="raca">Raça (opcional)</label>
+      <input type="text" id="raca" name="raca" value="{{ dados.get('raca', '') }}">
+    </p>
+
+    <p>
+      <label for="data_nascimento">Data de nascimento (dd/mm/aaaa)</label>
+      <input type="text" id="data_nascimento" name="data_nascimento" value="{{ dados.get('data_nascimento', '') }}" placeholder="09/09/2022">
+      {% if erros.get('data_nascimento') %}<span class="erro">{{ erros['data_nascimento'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <label for="tutor_nome">Nome do tutor</label>
+      <input type="text" id="tutor_nome" name="tutor_nome" value="{{ dados.get('tutor_nome', '') }}">
+      {% if erros.get('tutor_nome') %}<span class="erro">{{ erros['tutor_nome'] }}</span>{% endif %}
+    </p>
+
+    <p>
+      <button type="submit">Salvar</button>
+      <a href="{{ url_for('listar') }}">Cancelar</a>
+    </p>
+
+  </form>
+{% endblock %}
